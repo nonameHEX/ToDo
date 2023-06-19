@@ -45,9 +45,6 @@ fun AddEditTaskScreen(
                 data = viewModel.data
                 data.loadingScreen = false
             }
-            AddEditTaskUIState.TaskStateChanged -> {
-                data = viewModel.data
-            }
             AddEditTaskUIState.TaskSaved -> {
                 LaunchedEffect(it) {
                     navigation.returnBack()
@@ -57,6 +54,9 @@ fun AddEditTaskScreen(
                 LaunchedEffect(it) {
                     navigation.returnBack()
                 }
+            }
+            is AddEditTaskUIState.TaskStateChanged -> {
+                data = viewModel.data
             }
         }
     }
@@ -94,7 +94,6 @@ fun AddEditTaskScreen(
                 .fillMaxSize()
         ){
             AddEditTaskScreenContent(
-                navigation = navigation,
                 actions = viewModel,
                 data = data
             )
@@ -104,7 +103,6 @@ fun AddEditTaskScreen(
 
 @Composable
 fun AddEditTaskScreenContent(
-    navigation: INavigationRouter,
     actions: AddEditTaskActions,
     data: AddEditTaskScreenData
 ){
@@ -142,7 +140,7 @@ fun AddEditTaskScreenContent(
             }
             item {
                 InfoElement(
-                    value = data.task.toDate.toString(),
+                    value = if (data.task.toDate != null) DateUtils.getDateString(data.task.toDate!!) else null,
                     hint = "Date",
                     leadingIcon = R.drawable.ic_calendar_today,
                     onClick = {

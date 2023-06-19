@@ -17,6 +17,7 @@ class AddEditTaskViewModel(private val repository: ITasksRepository): BaseViewMo
         if(taskId != null){
             launch {
                 data.task = repository.findById(taskId!!)
+                addEditTaskUIState.value = AddEditTaskUIState.TaskLoaded
             }
         }else {
             addEditTaskUIState.value = AddEditTaskUIState.TaskLoaded
@@ -25,7 +26,7 @@ class AddEditTaskViewModel(private val repository: ITasksRepository): BaseViewMo
 
     override fun saveTask() {
         if(data.task.text.isEmpty()) {
-            addEditTaskUIState.value = AddEditTaskUIState.TaskStateChanged
+            addEditTaskUIState.value = AddEditTaskUIState.TaskStateChanged()
         }else {
             launch {
                 if(taskId == null){
@@ -33,6 +34,7 @@ class AddEditTaskViewModel(private val repository: ITasksRepository): BaseViewMo
                 }else {
                     repository.update(data.task)
                 }
+                addEditTaskUIState.value = AddEditTaskUIState.TaskSaved
             }
         }
     }
@@ -46,11 +48,11 @@ class AddEditTaskViewModel(private val repository: ITasksRepository): BaseViewMo
 
     override fun onTextChanged(text: String) {
         data.task.text = text
-        addEditTaskUIState.value = AddEditTaskUIState.TaskStateChanged
+        addEditTaskUIState.value = AddEditTaskUIState.TaskStateChanged()
     }
 
     override fun onToDateChanged(date: Long?) {
         data.task.toDate = date
-        addEditTaskUIState.value = AddEditTaskUIState.TaskStateChanged
+        addEditTaskUIState.value = AddEditTaskUIState.TaskStateChanged()
     }
 }

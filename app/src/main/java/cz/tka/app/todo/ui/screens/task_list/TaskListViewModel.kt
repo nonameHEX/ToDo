@@ -16,4 +16,10 @@ class TaskListViewModel(private val repository: ITasksRepository): BaseViewModel
             }
         }
     }
+
+    override fun changeTaskState(id: Long, state: Boolean) {
+        launch {
+            repository.changeTaskState(id = id, taskState = state)
+        }
+    }
 }

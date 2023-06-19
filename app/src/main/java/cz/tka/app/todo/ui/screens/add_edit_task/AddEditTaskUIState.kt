@@ -6,5 +6,5 @@ sealed class AddEditTaskUIState {
     object TaskLoaded: AddEditTaskUIState()
     object TaskSaved: AddEditTaskUIState()
     object TaskDeleted: AddEditTaskUIState()
-    object TaskStateChanged : AddEditTaskUIState()
+    class TaskStateChanged() : AddEditTaskUIState()
 }
